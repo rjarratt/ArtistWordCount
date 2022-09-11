@@ -1,0 +1,5 @@
+{
+    "MusicMetadataConnection": {
+        "RootUri": "https://musicbrainz.org/ws/2/"
+    }
+}
