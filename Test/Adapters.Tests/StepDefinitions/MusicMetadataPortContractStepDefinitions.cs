@@ -14,6 +14,7 @@ public class MusicMetadataPortContractStepDefinitions : IDisposable
 {
     private IHost? host;
     private IMusicMetadata? musicMetadataPort;
+    private Exception? caughtException;
     private List<Artist>? artistList;
     private bool disposedValue;
 
@@ -45,7 +46,14 @@ public class MusicMetadataPortContractStepDefinitions : IDisposable
     [When(@"I query for '([^']*)'")]
     public async Task WhenIQueryFor(string artistName)
     {
-        this.artistList = (await this.musicMetadataPort!.GetArtistsAsync(artistName).ConfigureAwait(false)).ToList();
+        try
+        {
+            this.artistList = (await this.musicMetadataPort!.GetArtistsAsync(artistName).ConfigureAwait(false)).ToList();
+        }
+        catch (HttpRequestException hre)
+        {
+            this.caughtException = hre;
+        }
     }
 
     [When(@"I query for '([^']*)' (.*) times in a row")]
@@ -55,6 +63,12 @@ public class MusicMetadataPortContractStepDefinitions : IDisposable
         {
             await this.WhenIQueryFor(artistName).ConfigureAwait(false);
         }
+    }
+
+    [Then(@"no error occurs")]
+    public void ThenNoErrorOccurs()
+    {
+        this.caughtException.Should().BeNull();
     }
 
     [Then(@"I get the following list of artists:")]

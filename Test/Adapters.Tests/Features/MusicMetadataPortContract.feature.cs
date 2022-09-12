@@ -121,14 +121,17 @@ this.ScenarioInitialize(scenarioInfo);
 #line 10
  testRunner.When("I query for \'Kate Bush\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
+#line 11
+ testRunner.Then("no error occurs", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
                 TechTalk.SpecFlow.Table table1 = new TechTalk.SpecFlow.Table(new string[] {
                             "Name",
                             "MbId"});
                 table1.AddRow(new string[] {
                             "Bush, Kate",
                             "4b585938-f271-45e2-b19a-91c634b5e396"});
-#line 11
- testRunner.Then("I get the following list of artists:", ((string)(null)), table1, "Then ");
+#line 12
+ testRunner.And("I get the following list of artists:", ((string)(null)), table1, "And ");
 #line hidden
             }
             this.ScenarioCleanup();
@@ -157,7 +160,7 @@ this.AQueryThatIdentifiesASingleArtistReturnsThatArtist("Http", ((string[])(null
                     "Integration"};
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("a query that is repeated faster than the rate limit succeeds", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 21
+#line 22
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((TagHelper.ContainsIgnoreTag(tagsOfScenario) || TagHelper.ContainsIgnoreTag(featureTags)))
@@ -167,11 +170,14 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 this.ScenarioStart();
-#line 22
+#line 23
  testRunner.Given("I am using the Http music metadata adapter", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
-#line 23
+#line 24
  testRunner.When("I query for \'Kate Bush\' 20 times in a row", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+#line 25
+ testRunner.Then("no error occurs", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
             this.ScenarioCleanup();
