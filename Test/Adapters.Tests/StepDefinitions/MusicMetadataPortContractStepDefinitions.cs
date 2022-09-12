@@ -17,6 +17,13 @@ public class MusicMetadataPortContractStepDefinitions : IDisposable
     private List<Artist>? artistList;
     private bool disposedValue;
 
+    [StepArgumentTransformation]
+    public static IEnumerable<Artist> TransformListOfArtists(Table table)
+    {
+        IEnumerable<Artist> artists = table.CreateSet<Artist>((row) => new Artist(Guid.NewGuid(), row[0]));
+        return artists;
+    }
+
     [Given(@"I am using the (.*) music metadata adapter")]
     public void GivenIAmUsingTheMusicMetadataAdapter(string adapterType)
     {
@@ -56,11 +63,11 @@ public class MusicMetadataPortContractStepDefinitions : IDisposable
         this.artistList.Should().BeEquivalentTo(expectedArtists);
     }
 
-    [StepArgumentTransformation]
-    public static IEnumerable<Artist> TransformListOfArtists(Table table)
+    public void Dispose()
     {
-        IEnumerable<Artist> artists = table.CreateSet<Artist>((row) => new Artist(Guid.NewGuid(), row[0]));
-        return artists;
+        // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
+        this.Dispose(disposing: true);
+        GC.SuppressFinalize(this);
     }
 
     protected virtual void Dispose(bool disposing)
@@ -74,12 +81,5 @@ public class MusicMetadataPortContractStepDefinitions : IDisposable
 
             this.disposedValue = true;
         }
-    }
-
-    public void Dispose()
-    {
-        // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
-        this.Dispose(disposing: true);
-        GC.SuppressFinalize(this);
     }
 }

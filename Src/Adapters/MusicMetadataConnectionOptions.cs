@@ -7,6 +7,9 @@ namespace ArtistWordCount.Adapters;
 /// </summary>
 public class MusicMetadataConnectionOptions
 {
+    /// <summary>
+    /// The name of the configuration section that contains the Music Metadata connection information.
+    /// </summary>
     public const string ConfigurationSectionName = "MusicMetadataConnection";
 
     /// <summary>

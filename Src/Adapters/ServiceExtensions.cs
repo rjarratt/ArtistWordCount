@@ -18,6 +18,7 @@ public static class ServiceExtensions
     /// Sets up dependency injection for the Http implementation of the <see cref="IMusicMetadata"/> port.
     /// </summary>
     /// <param name="services">The service collection to add the services to.</param>
+    /// <param name="configuration">The configuration data.</param>
     /// <returns>The service collection for additional configuration.</returns>
     public static IServiceCollection AddHttpMusicMetadataAdapter(this IServiceCollection services, IConfiguration configuration)
     {
@@ -35,8 +36,9 @@ public static class ServiceExtensions
                 httpClient.DefaultRequestHeaders.UserAgent.Add(new ProductInfoHeaderValue(ProductName, ProductVersion));
                 httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             });
+            ////.AddTransientHttpErrorPolicy(builder => builder.Rate);
 
-        // TODO: Polly rate limit and retry policy
+        //// TODO: Polly rate limit and retry policy
 
         return services;
     }

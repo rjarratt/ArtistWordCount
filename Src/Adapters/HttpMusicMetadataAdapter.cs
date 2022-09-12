@@ -9,17 +9,22 @@ public class HttpMusicMetadataAdapter : IMusicMetadata
 {
     private HttpClient httpClient;
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="HttpMusicMetadataAdapter"/> class.
+    /// </summary>
+    /// <param name="httpClient">The <see cref="HttpClient"/> to be used for calling the Music Metadata service.</param>
     public HttpMusicMetadataAdapter(HttpClient httpClient)
     {
         Requires.NotNull(httpClient, nameof(httpClient));
         this.httpClient = httpClient;
     }
 
+    /// <inheritdoc/>
     public async Task<IEnumerable<Artist>> GetArtistsAsync(string artistName)
     {
-        HttpResponseMessage response = await httpClient.GetAsync($"artist?query={artistName}").ConfigureAwait(false);
+        HttpResponseMessage response = await this.httpClient.GetAsync(new Uri($"artist?query={artistName}", UriKind.Relative)).ConfigureAwait(false);
         response.EnsureSuccessStatusCode();
-        string payload = await response.Content.ReadAsStringAsync();
+        string payload = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
         IEnumerable<Artist> result = ExtractArtists(payload);
         return result;
     }
@@ -29,7 +34,7 @@ public class HttpMusicMetadataAdapter : IMusicMetadata
     /// </summary>
     /// <param name="payload">The JSON payload to be parsed.</param>
     /// <returns>The list of artists.</returns>
-    private IEnumerable<Artist> ExtractArtists(string payload)
+    private static IEnumerable<Artist> ExtractArtists(string payload)
     {
         JObject parsedObject = JObject.Parse(payload);
         IEnumerable<JToken> artists = parsedObject.SelectTokens("$..artists[?(@.score == 100)]");

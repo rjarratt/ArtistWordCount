@@ -6,6 +6,10 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <PropertyGroup>
+    <AnalysisLevel>latest-all</AnalysisLevel>
+  </PropertyGroup>
+
   <PropertyGroup Label="Configure assembly names and namespaces">
     <AssemblyName>$(SolutionName).$(MSBuildProjectName)</AssemblyName>
     <RootNamespace>$(AssemblyName)</RootNamespace>
@@ -27,6 +31,21 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.VisualStudio.Validation" Version="17.0.64" />
+    <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.435">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
   </ItemGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <OutputPath>bin\Debug\</OutputPath>
+    <DocumentationFile>bin\Debug\$(MSBuildProjectName).xml</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <OutputPath>bin\Release\</OutputPath>
+    <DocumentationFile>bin\Release\$(MSBuildProjectName).xml</DocumentationFile>
+  </PropertyGroup>
+
+
 
 </Project>

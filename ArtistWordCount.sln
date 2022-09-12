@@ -5,6 +5,7 @@ VisualStudioVersion = 17.3.32825.248
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{764811DB-0285-4904-82E5-3BE01B0E0E34}"
 	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
 		.gitignore = .gitignore
 		Directory.Build.props = Directory.Build.props
 		README.md = README.md
@@ -28,7 +29,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Adapters.Tests", "Test\Adap
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Adapters", "Src\Adapters\Adapters.csproj", "{136336EF-928A-4892-82D4-FCA2A885BE12}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test.Common", "Test\Test.Common\Test.Common.csproj", "{85232CAC-AC56-4801-B60B-6E0DF12FAB5B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Test.Common", "Test\Test.Common\Test.Common.csproj", "{85232CAC-AC56-4801-B60B-6E0DF12FAB5B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
