@@ -15,6 +15,16 @@
     <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
   </PropertyGroup>
 
+  <!-- Enable code analysis -->
+  <PropertyGroup>
+    <Features>IOperation</Features>
+  </PropertyGroup>
+
+  <!-- Enable .NET analyzers -->
+  <PropertyGroup>
+    <EnableNETAnalyzers>true</EnableNETAnalyzers>
+  </PropertyGroup>
+
   <ItemGroup>
     <PackageReference Include="Microsoft.VisualStudio.Validation" Version="17.0.64" />
   </ItemGroup>

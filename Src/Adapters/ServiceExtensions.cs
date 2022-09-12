@@ -36,6 +36,7 @@ public static class ServiceExtensions
                 httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             });
 
+        // TODO: Polly rate limit and retry policy
 
         return services;
     }
