@@ -5,6 +5,9 @@ using Newtonsoft.Json.Linq;
 
 namespace ArtistWordCount.Adapters;
 
+/// <summary>
+/// The MusicBrainz adapter for the <see cref="IMusicMetadata"/> port.
+/// </summary>
 public class HttpMusicMetadataAdapter : IMusicMetadata
 {
     private HttpClient httpClient;

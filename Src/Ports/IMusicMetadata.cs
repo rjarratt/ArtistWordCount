@@ -3,7 +3,7 @@
 namespace ArtistWordCount.Ports;
 
 /// <summary>
-/// Defines the operations available for obtaining music metadata
+/// Defines the operations available for obtaining music metadata.
 /// </summary>
 public interface IMusicMetadata
 {
