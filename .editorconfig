@@ -231,6 +231,9 @@ dotnet_diagnostic.CA1805.severity = warning
 dotnet_diagnostic.CA1825.severity = warning
 dotnet_diagnostic.CA2016.severity = warning
 
+# SA1633: File should have header
+dotnet_diagnostic.SA1633.severity = none
+
 [*.{cs,vb}]
 dotnet_style_operator_placement_when_wrapping = beginning_of_line
 tab_width = 4
