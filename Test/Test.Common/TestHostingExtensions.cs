@@ -7,7 +7,7 @@ namespace ArtistWordCount.Test.Common;
 /// <summary>
 /// Provides hosting for tests.
 /// </summary>
-public static class TestHost
+public static class TestHostingExtensions
 {
     /// <summary>
     /// Creates the hosting for running tests.

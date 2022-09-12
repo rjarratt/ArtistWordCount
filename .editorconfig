@@ -321,5 +321,8 @@ dotnet_diagnostic.CA1014.severity = none
 
 # Step definitions
 [**StepDefinitions/**.cs]
-# SA1591: Missing XML comment for publicly visible type or member
-dotnet_diagnostic.SA1591.severity = none
+# CS1591: Missing XML comment for publicly visible type or member
+dotnet_diagnostic.CS1591.severity = none
+
+# SA1600: Elements should be documented
+dotnet_diagnostic.SA1600.severity = none

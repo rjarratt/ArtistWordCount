@@ -27,7 +27,7 @@ public class MusicMetadataPortContractStepDefinitions : IDisposable
     [Given(@"I am using the (.*) music metadata adapter")]
     public void GivenIAmUsingTheMusicMetadataAdapter(string adapterType)
     {
-        this.host = TestHost.CreateHost((hostBuilderContext, services) =>
+        this.host = TestHostingExtensions.CreateHost((hostBuilderContext, services) =>
         {
             if (adapterType == "Http")
             {
