@@ -1,4 +1,5 @@
 ﻿using ArtistWordCount.Ports;
+using Microsoft;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
@@ -22,6 +23,8 @@ public static class ServiceExtensions
     /// <returns>The service collection for additional configuration.</returns>
     public static IServiceCollection AddHttpMusicMetadataAdapter(this IServiceCollection services, IConfiguration configuration)
     {
+        Requires.NotNull(configuration, nameof(configuration));
+
         services.AddOptions<MusicMetadataConnectionOptions>()
             .Bind(configuration.GetSection(MusicMetadataConnectionOptions.ConfigurationSectionName))
             .ValidateDataAnnotations();

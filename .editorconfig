@@ -318,3 +318,8 @@ dotnet_diagnostic.CA2250.severity = warning
 
 # CA1014: Mark assemblies with CLSCompliant
 dotnet_diagnostic.CA1014.severity = none
+
+# Step definitions
+[**StepDefinitions/**.cs]
+# SA1591: Missing XML comment for publicly visible type or member
+dotnet_diagnostic.SA1591.severity = none
