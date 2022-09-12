@@ -3,6 +3,7 @@ using Microsoft;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
+using Polly;
 using System.Net.Http.Headers;
 
 namespace ArtistWordCount.Adapters;
@@ -38,10 +39,11 @@ public static class ServiceExtensions
                 httpClient.BaseAddress = musicMetadataConnectionOptions.RootUri;
                 httpClient.DefaultRequestHeaders.UserAgent.Add(new ProductInfoHeaderValue(ProductName, ProductVersion));
                 httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-            });
-            ////.AddTransientHttpErrorPolicy(builder => builder.Rate);
-
-        //// TODO: Polly rate limit and retry policy
+            })
+            .AddTransientHttpErrorPolicy((policyBuilder) => policyBuilder.WaitAndRetryAsync(new[]
+            {
+                musicMetadataConnectionOptions.ThrottleWaitPeriod,
+            }));
 
         return services;
     }

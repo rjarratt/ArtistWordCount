@@ -17,4 +17,10 @@ public class MusicMetadataConnectionOptions
     /// </summary>
     [Required]
     public Uri? RootUri { get; set; }
+
+    /// <summary>
+    /// Gets or sets the amount of time to wait  after being throttled.
+    /// </summary>
+    [Required]
+    public TimeSpan ThrottleWaitPeriod { get; set; } = TimeSpan.FromSeconds(10);
 }
