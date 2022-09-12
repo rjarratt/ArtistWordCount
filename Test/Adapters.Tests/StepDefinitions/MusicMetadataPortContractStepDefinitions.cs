@@ -32,7 +32,7 @@ public class MusicMetadataPortContractStepDefinitions : IDisposable
             }
         });
 
-        this.musicMetadataPort = host.Services.GetRequiredService<IMusicMetadata>();
+        this.musicMetadataPort = this.host.Services.GetRequiredService<IMusicMetadata>();
     }
 
     [When(@"I query for '([^']*)'")]
@@ -65,21 +65,21 @@ public class MusicMetadataPortContractStepDefinitions : IDisposable
 
     protected virtual void Dispose(bool disposing)
     {
-        if (!disposedValue)
+        if (!this.disposedValue)
         {
             if (disposing)
             {
-                host?.Dispose();
+                this.host?.Dispose();
             }
 
-            disposedValue = true;
+            this.disposedValue = true;
         }
     }
 
     public void Dispose()
     {
         // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
-        Dispose(disposing: true);
+        this.Dispose(disposing: true);
         GC.SuppressFinalize(this);
     }
 }
