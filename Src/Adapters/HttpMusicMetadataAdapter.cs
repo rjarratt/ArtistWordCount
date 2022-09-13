@@ -25,6 +25,8 @@ public class HttpMusicMetadataAdapter : IMusicMetadata
     /// <inheritdoc/>
     public async Task<IEnumerable<Artist>> GetArtistsAsync(string artistName)
     {
+        // TODO: escape Lucene special characters: https://lucene.apache.org/core/4_3_0/queryparser/org/apache/lucene/queryparser/classic/package-summary.html#Escaping_Special_Characters
+        // TODO: Pagination
         HttpResponseMessage response = await this.httpClient.GetAsync(new Uri($"artist?query={artistName}", UriKind.Relative)).ConfigureAwait(false);
         response.EnsureSuccessStatusCode();
         string payload = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
