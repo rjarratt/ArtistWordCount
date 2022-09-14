@@ -2,6 +2,7 @@
 using ArtistWordCount.Ports;
 using Microsoft;
 using Newtonsoft.Json.Linq;
+using System.Net;
 
 namespace ArtistWordCount.Adapters;
 
@@ -27,7 +28,7 @@ public class HttpMusicMetadataAdapter : IMusicMetadata
     {
         // TODO: escape Lucene special characters: https://lucene.apache.org/core/4_3_0/queryparser/org/apache/lucene/queryparser/classic/package-summary.html#Escaping_Special_Characters
         // TODO: Pagination
-        HttpResponseMessage response = await this.httpClient.GetAsync(new Uri($"artist?query={artistName}", UriKind.Relative)).ConfigureAwait(false);
+        HttpResponseMessage response = await this.httpClient.GetAsync(new Uri($"artist?query={WebUtility.UrlEncode(artistName)}", UriKind.Relative)).ConfigureAwait(false);
         response.EnsureSuccessStatusCode();
         string payload = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
         IEnumerable<Artist> result = ExtractArtists(payload);
