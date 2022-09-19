@@ -1,7 +1,7 @@
-﻿Feature: MusicMetadataPortContract
+﻿Feature: MusicMetadataPortContract-ArtistQuery
 	As a developer
 	I want to use the music metadata port
-	So I can query for music metadata
+	So I can query for artist metadata
 	I also want to ensure that the emulated and Http adapters both fulfil the same port contract
 
 @Contract
