@@ -14,9 +14,34 @@ Scenario Outline: a query that identifies a single artist returns that artist
 		| Bush, Kate | 4b585938-f271-45e2-b19a-91c634b5e396 |
 
 Examples:
-	| Type     |
+	| Type |
 #	| Emulated |
-	| Http     |
+	| Http |
+
+Scenario Outline: a query that identifies multiple artists returns them all
+	Given I am using the <Type> music metadata adapter
+	When I query for 'Bush'
+	Then no error occurs
+	And I get the following list of artists:
+		| Name       | MbId                                 |
+		| Bush       | 93ccd76c-3790-4435-a8bf-02bc26294b93 |
+		| Bush, Kate | 4b585938-f271-45e2-b19a-91c634b5e396 |
+
+Examples:
+	| Type |
+#	| Emulated |
+	| Http |
+
+Scenario Outline: a query that identifies no artists returns an empty list
+	Given I am using the <Type> music metadata adapter
+	When I query for 'laiue4wriopuqy3'
+	Then no error occurs
+	And I get no results
+
+Examples:
+	| Type |
+#	| Emulated |
+	| Http |
 
 @Integration
 Scenario: a query that is repeated faster than the rate limit succeeds

@@ -77,6 +77,12 @@ public class MusicMetadataPortContractStepDefinitions : IDisposable
         this.artistList.Should().BeEquivalentTo(expectedArtists);
     }
 
+    [Then(@"I get no results")]
+    public void ThenIGetNoResults()
+    {
+        this.artistList.Should().BeEmpty();
+    }
+
     public void Dispose()
     {
         // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
