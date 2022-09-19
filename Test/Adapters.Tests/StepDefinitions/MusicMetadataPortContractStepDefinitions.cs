@@ -33,7 +33,7 @@ public class MusicMetadataPortContractStepDefinitions : IDisposable
     [StepArgumentTransformation]
     public static IEnumerable<Artist> TransformListOfArtists(Table table)
     {
-        IEnumerable<Artist> artists = table.CreateSet<Artist>((row) => new Artist(Guid.NewGuid(), row[0]));
+        IEnumerable<Artist> artists = table.CreateSet<Artist>((row) => new Artist(Guid.Parse(row[1]), row[0]));
         return artists;
     }
 
