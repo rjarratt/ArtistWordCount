@@ -2,6 +2,7 @@
 using ArtistWordCount.Ports;
 using ArtistWordCount.Test.Common;
 using FluentAssertions;
+using Microsoft;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using TechTalk.SpecFlow;
@@ -16,13 +17,31 @@ public class MusicMetadataPortContractStepDefinitions : IDisposable
     private IMusicMetadata? musicMetadataPort;
     private Exception? caughtException;
     private List<Artist>? artistList;
+    private List<Song>? songList;
     private bool disposedValue;
+
+    [StepArgumentTransformation]
+    public static Artist TransformArtist(string artistString)
+    {
+        Requires.NotNullOrWhiteSpace(artistString, nameof(artistString));
+
+        string[] parts = artistString.Split(':');
+        Artist result = new Artist(Guid.Parse(parts[1]), parts[0]);
+        return result;
+    }
 
     [StepArgumentTransformation]
     public static IEnumerable<Artist> TransformListOfArtists(Table table)
     {
         IEnumerable<Artist> artists = table.CreateSet<Artist>((row) => new Artist(Guid.NewGuid(), row[0]));
         return artists;
+    }
+
+    [StepArgumentTransformation]
+    public static IEnumerable<Song> TransformListOfSongs(Table table)
+    {
+        IEnumerable<Song> songs = table.CreateSet<Song>((row) => new Song(Guid.Parse(row[1]), row[0]));
+        return songs;
     }
 
     [Given(@"I am using the (.*) music metadata adapter")]
@@ -43,12 +62,25 @@ public class MusicMetadataPortContractStepDefinitions : IDisposable
         this.musicMetadataPort = this.host.Services.GetRequiredService<IMusicMetadata>();
     }
 
-    [When(@"I query for '([^']*)'")]
-    public async Task WhenIQueryFor(string artistName)
+    [When(@"I query for the artist '([^']*)'")]
+    public async Task WhenIQueryForTheArtist(string artistName)
     {
         try
         {
             this.artistList = (await this.musicMetadataPort!.GetArtistsAsync(artistName).ConfigureAwait(false)).ToList();
+        }
+        catch (HttpRequestException hre)
+        {
+            this.caughtException = hre;
+        }
+    }
+
+    [When(@"I query for the songs of '([^']*)'")]
+    public async Task WhenIQueryForTheSongsOf(Artist artist)
+    {
+        try
+        {
+            this.songList = (await this.musicMetadataPort!.GetArtistSongsAsync(artist).ConfigureAwait(false)).ToList();
         }
         catch (HttpRequestException hre)
         {
@@ -61,7 +93,7 @@ public class MusicMetadataPortContractStepDefinitions : IDisposable
     {
         for (int i = 0; i < numberOfRepeats; i++)
         {
-            await this.WhenIQueryFor(artistName).ConfigureAwait(false);
+            await this.WhenIQueryForTheArtist(artistName).ConfigureAwait(false);
         }
     }
 
@@ -81,6 +113,18 @@ public class MusicMetadataPortContractStepDefinitions : IDisposable
     public void ThenIGetNoResults()
     {
         this.artistList.Should().BeEmpty();
+    }
+
+    [Then(@"I get a list of (.*) songs including:")]
+    public void ThenIGetAListOfSongsIncluding(int numberOfSongs, IEnumerable<Song> someExpectedSongs)
+    {
+        Requires.NotNull(someExpectedSongs, nameof(someExpectedSongs));
+
+        this.songList.Should().HaveCount(numberOfSongs);
+        foreach (Song expectedSong in someExpectedSongs)
+        {
+            this.songList.Should().ContainEquivalentOf(expectedSong);
+        }
     }
 
     public void Dispose()

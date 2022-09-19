@@ -46,9 +46,22 @@ public class HttpMusicMetadataAdapter : IMusicMetadata
     }
 
     /// <inheritdoc/>
-    public Task<IEnumerable<Song>> GetArtistSongsAsync(Artist artist)
+    public async Task<IEnumerable<Song>> GetArtistSongsAsync(Artist artist)
     {
-        throw new NotImplementedException();
+        Requires.NotNull(artist, nameof(artist));
+        List<Song> result = new List<Song>();
+        List<Song> pageOfSongs;
+        int offset = 0;
+
+        do
+        {
+            pageOfSongs = (await this.GetPageOfSongs(artist, offset).ConfigureAwait(false)).ToList();
+            result.AddRange(pageOfSongs);
+            offset += pageOfSongs.Count;
+        }
+        while (pageOfSongs.Any());
+
+        return result;
     }
 
     /// <summary>
@@ -64,4 +77,20 @@ public class HttpMusicMetadataAdapter : IMusicMetadata
         return result;
     }
 
+    private static IEnumerable<Song> ExtractSongs(string payload)
+    {
+        JObject parsedObject = JObject.Parse(payload);
+        IEnumerable<JToken> songs = parsedObject.SelectTokens($"$..works[?(@.type >= 'Song')]");
+        IEnumerable<Song> result = songs.Select(a => new Song(new Guid(a.SelectToken("$.id")!.Value<string>()!), a.SelectToken("$.title")!.Value<string>()!));
+        return result;
+    }
+
+    private async Task<IEnumerable<Song>> GetPageOfSongs(Artist artist, int offset)
+    {
+        HttpResponseMessage response = await this.httpClient.GetAsync(new Uri($"work?artist={artist.MbId}&offset={offset}&limit=100", UriKind.Relative)).ConfigureAwait(false);
+        response.EnsureSuccessStatusCode();
+        string payload = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+        IEnumerable<Song> result = ExtractSongs(payload);
+        return result;
+    }
 }

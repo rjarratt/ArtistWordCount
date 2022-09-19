@@ -7,7 +7,7 @@
 @Contract
 Scenario Outline: a query that identifies a single artist returns that artist
 	Given I am using the <Type> music metadata adapter
-	When I query for 'Kate Bush'
+	When I query for the artist 'Kate Bush'
 	Then no error occurs
 	And I get the following list of artists:
 		| Name       | MbId                                 |
@@ -21,7 +21,7 @@ Examples:
 @Contract
 Scenario Outline: a query that identifies multiple artists returns them all
 	Given I am using the <Type> music metadata adapter
-	When I query for 'Bush'
+	When I query for the artist 'Bush'
 	Then no error occurs
 	And I get the following list of artists:
 		| Name       | MbId                                 |
@@ -36,7 +36,7 @@ Examples:
 @Contract
 Scenario Outline: a query that identifies no artists returns an empty list
 	Given I am using the <Type> music metadata adapter
-	When I query for 'laiue4wriopuqy3'
+	When I query for the artist 'laiue4wriopuqy3'
 	Then no error occurs
 	And I get no results
 
@@ -48,7 +48,7 @@ Scenario Outline: a query that identifies no artists returns an empty list
 @Contract
 Scenario Outline: a query for a name that includes lucene special characters works correctly
 	Given I am using the <Type> music metadata adapter
-	When I query for ':'
+	When I query for the artist ':'
 	Then no error occurs
 	And I get the following list of artists:
 		| Name           | MbId                                 |
