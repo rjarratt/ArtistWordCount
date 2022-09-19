@@ -30,11 +30,14 @@ public class HttpMusicMetadataAdapter : IMusicMetadata
     /// <inheritdoc/>
     public async Task<IEnumerable<Artist>> GetArtistsAsync(string artistName)
     {
-        // Note that we do not do pagination here. The API only seems to ever return a single match with a 100% score. We set the bar 
+        // Note that we do not do pagination here. The API only seems to ever return a single match with a 100% score. We set the bar
         // a bit lower than 100% to return close matches, but even with a search term such as "the", we only get a handful scoring above
         // 90% so there is no point paginating here. In any case, presenting a user with a very long list of matches is not going to be
         // very helpful anyway.
-        // TODO: escape Lucene special characters: https://lucene.apache.org/core/4_3_0/queryparser/org/apache/lucene/queryparser/classic/package-summary.html#Escaping_Special_Characters
+
+        // TODO: escape Lucene special characters: https://lucene.apache.org/core/4_3_0/queryparser/org/apache/lucene/queryparser/classic/package-summary.html#Escaping_Special_Characters.
+        // Don't currently do this because it isn't entirely clear how the inclusion of the special characters actually affects the query, it seems to work
+        // without escaping.
         HttpResponseMessage response = await this.httpClient.GetAsync(new Uri($"artist?query={WebUtility.UrlEncode(artistName)}", UriKind.Relative)).ConfigureAwait(false);
         response.EnsureSuccessStatusCode();
         string payload = await response.Content.ReadAsStringAsync().ConfigureAwait(false);

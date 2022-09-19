@@ -18,6 +18,7 @@ Examples:
 #	| Emulated |
 	| Http |
 
+@Contract
 Scenario Outline: a query that identifies multiple artists returns them all
 	Given I am using the <Type> music metadata adapter
 	When I query for 'Bush'
@@ -32,11 +33,26 @@ Examples:
 #	| Emulated |
 	| Http |
 
+@Contract
 Scenario Outline: a query that identifies no artists returns an empty list
 	Given I am using the <Type> music metadata adapter
 	When I query for 'laiue4wriopuqy3'
 	Then no error occurs
 	And I get no results
+
+	Examples:
+	| Type |
+#	| Emulated |
+	| Http |
+
+@Contract
+Scenario Outline: a query for a name that includes lucene special characters works correctly
+	Given I am using the <Type> music metadata adapter
+	When I query for ':'
+	Then no error occurs
+	And I get the following list of artists:
+		| Name           | MbId                                 |
+		| phase : : vier | 29a96e55-2793-415b-8d36-947a1f57f535 |
 
 Examples:
 	| Type |
