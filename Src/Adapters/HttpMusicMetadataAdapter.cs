@@ -45,6 +45,12 @@ public class HttpMusicMetadataAdapter : IMusicMetadata
         return result;
     }
 
+    /// <inheritdoc/>
+    public Task<IEnumerable<Song>> GetArtistSongsAsync(Artist artist)
+    {
+        throw new NotImplementedException();
+    }
+
     /// <summary>
     /// Extracts the artists with a <see cref="MinimumScore"/> match from a payload.
     /// </summary>
@@ -57,4 +63,5 @@ public class HttpMusicMetadataAdapter : IMusicMetadata
         IEnumerable<Artist> result = artists.Select(a => new Artist(new Guid(a.SelectToken("$.id")!.Value<string>()!), a.SelectToken("$.sort-name")!.Value<string>()!));
         return result;
     }
+
 }
